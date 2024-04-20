@@ -1,4 +1,4 @@
-function  [H, W, hh] = dtmfdesign(fcent, L, fs)
+function  hh = dtmfdesign(fcent, L, fs)
 %DTMFDESIGN
 %     hh = dtmfdesign(fcent, L, fs)
 %       returns a matrix where each column is the
@@ -14,41 +14,48 @@ function  [H, W, hh] = dtmfdesign(fcent, L, fs)
 
 %%%% add your lines below to complete the code
 
-% Values for Filter
-h = zeros(1,L);
+%w: normalised angular frequency
+%h: frequency response vector
 
-for i = 1:size(fcent,1)
-    omegaC = 2*pi*(fcent(i) / fs);
+nn = 1:L;
 
-    % Calculating b with beta being one
-    k = 1;
+for i=1:size(fcent)
+    
+    %calculate filter coeffs
+    bb = cos(2*pi*(fcent(i)/fs)*nn); 
 
-    for j = 0:L
-        h(k) = cos(omegaC * j);
-        k = k + 1;
-    end
+    %get the greatest unscaled val to scale BPF down 
+    [h, w] = freqz(bb, 1, 4096);
+    maxVal = max(h); %find the maximum value
 
-    t = linspace(0,L, k - 1);
+    %scaled 
+    bb_scaled = (1/maxVal)*bb;
+    [h, w] = freqz(bb_scaled, 1, 4096);
 
-    plot(t, h)
+    %plot stuff
+    plot(w, abs(h));
+    xlabel('Normalised Frequency')
+    ylabel('Frequency Response Magnitude')
+    xlim([0, 3.14]);
+    ylim([-0.2, 1.2]);
+    hold on;
 
-    % Calc Frequency Responce
-    [H_1, W_1] = freqz(h, 1, fs);
+    %assign to matrix 
+    hh(:, i) = bb;
 
-    t = linspace(0,pi, fs);
+    %find the cutoff frequencies 
+    lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;
+    ucf_index = find(diff(abs(h) < 0.7071) == 1) + 1;
+    lcf = w(lcf_index);
+    ucf = w(ucf_index);
 
-    beta = 1 / max(abs(H_1));
+    fprintf('For frequency number %d\n', i)
+    disp('Lower cutoff frequency:');
+    disp((lcf*fs)/(2*pi));
+    disp('Upper cutoff frequency:');
+    disp((ucf*fs)/(2*pi));
+    disp('Passband width');
+    disp(((ucf-lcf)*fs/(2*pi)));
 
-    [H_1, W_1] = freqz(beta*h, 1, fs);
-
-    plot (t, H_1)
-
-    H(:,i) = abs(H_1);
-
-    W(:, i) = abs(W_1);
-
-    hh(:, i) = h;
 end
-
-
 end
