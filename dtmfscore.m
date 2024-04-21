@@ -11,17 +11,21 @@ function  [sc] = dtmfscore(xx, hh)
 %      sc = 1 if max(|y[n]|) is greater than, or equal to, 0.59
 %      sc = 0 if max(|y[n]|) is less than 0.59
 
-xx = xx*(2/max(abs(xx)));   %---Scale x[n] to the range [-2,+2]
+xx_2 = xx*(1/max(abs(xx)));   %---Scale x[n] to the range [-2,+2]
 sc = zeros(size(hh, 2), 1);
 
+close;
+
 for i = 1:size(hh, 2)
-    y = conv(hh(i), xx);
-    y = abs(max(y))
+    y = conv(hh(:,i), xx_2);
+    y = abs(y);
+
+    max(y)
     
-    if (max(y) >= 0.59)
-        % disp(max(y));
+    if (max(y) >= 0.5)
         sc(i) = 1;
     end
+
 end
 
 end
