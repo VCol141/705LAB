@@ -25,12 +25,12 @@ for i=1:size(fcent)
     bb = cos(2*pi*(fcent(i)/fs)*nn); 
 
     %get the greatest unscaled val to scale BPF down 
-    [h, w] = freqz(bb, 1, 4096);
+    [h, w] = freqz(bb, 1, fs);
     maxVal = max(h); %find the maximum value
 
     %scaled 
     bb_scaled = (1/maxVal)*bb;
-    [h, w] = freqz(bb_scaled, 1, 4096);
+    [h, w] = freqz(bb_scaled, 1, fs);
 
     %plot stuff
     plot(w, abs(h));
@@ -41,7 +41,7 @@ for i=1:size(fcent)
     hold on;
 
     %assign to matrix 
-    hh(:, i) = bb;
+    hh(:, i) = bb_scaled;
 
     %find the cutoff frequencies 
     lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;

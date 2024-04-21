@@ -37,7 +37,7 @@ result = find(abs(H) > (1/sqrt(2)));
 ftOmeg = W(result(1));
 ltOmeg = W(result(140));
 
-ftf = ftOmeg * (N / (2*pi));
-ltf = ltOmeg * (N / (2*pi));
+ftf = ftOmeg * (N / (2*pi))
+ltf = ltOmeg * (N / (2*pi))
 
 
