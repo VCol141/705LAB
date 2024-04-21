@@ -1,4 +1,4 @@
-function  hh = dtmfdesign(fcent, L, fs)
+function  [hh, H, W] = dtmfdesign(fcent, L, fs)
 %DTMFDESIGN
 %     hh = dtmfdesign(fcent, L, fs)
 %       returns a matrix where each column is the
@@ -26,11 +26,14 @@ for i=1:size(fcent)
 
     %get the greatest unscaled val to scale BPF down 
     [h, w] = freqz(bb, 1, fs);
-    maxVal = max(h); %find the maximum value
+    maxVal = max(abs(h)); %find the maximum value
 
     %scaled 
     bb_scaled = (1/maxVal)*bb;
     [h, w] = freqz(bb_scaled, 1, fs);
+    hh(:, i) = bb_scaled;
+    H(:, i) = h;
+    W(:, i) = w;
 
     %plot stuff
     plot(w, abs(h));
@@ -39,9 +42,7 @@ for i=1:size(fcent)
     xlim([0, 3.14]);
     ylim([-0.2, 1.2]);
     hold on;
-
-    %assign to matrix 
-    hh(:, i) = bb_scaled;
+    
 
     %find the cutoff frequencies 
     lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;
