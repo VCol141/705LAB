@@ -1,70 +1,48 @@
 clear;
 clc;
 
+for L = 86:100
+    l = findMinval(L);
 
+    if l
+        disp(L)
+        break;
+    end
+end
+
+close;
+
+findMinval(L);
+
+
+
+function l = findMinval(L)
+% System parameters
 fs = 8000;
 fcent = [697;770;852;941;1209;1336;1477;1633];
-xx = linspace(0, pi, fs);
- 
-L = 80;
-[ww, hh, bb] = dtmfdesign_updated(fcent, L, fs);
 
-% for L = 1:100
-% 
-%     % gets the impulse response
-%     [w, h, bb] = dtmfdesign_updated(fcent, L, fs);
-% 
-%     %find the index of the stopband
-%     for i = 1:size(fcent)
-%         index = find(abs(h(:,i)) > (1/4));
-%         num_rows = size(index, 1);
-%         result(1,i) = index(i);
-%         result(2,i) = index(num_rows);
-%     end
-% 
-%     % Get the first and last Normalised Frequency
-%     lOmeg(:) = w(result(1,:));
-%     hOmeg(:) = w(result(2,:));
-% 
-%     lcf = lOmeg * (fs / (2*pi));
-%     hcf = hOmeg * (fs / (2*pi));
-% 
-%     bpw = hcf - lcf;
-% 
-% 
-%     hOww = ww(result(2,:)) .* (fs / (2 * pi()));
-% 
-%     for i = 1:(size(result, 2) - 1)
-% 
-%         if (hOww(i) > (fcent(i + 1)))
-%             break;
-%         else
-%             disp(L)
-%         end
-% 
-%     end
-% 
-%     %normalise
-% end
+% gets the responce
+[bb] = dtmfdesign(fcent, L, fs);
 
-% returns w and h too
-function [w_out, h_out, hh] = dtmfdesign_updated(fcent, L, fs)
-    nn = 1:L;
+for i = 1:size(fcent, 1)
+    [H_i, W_i] = freqz(bb(:,i), 1, fs);
 
-    for i=1:size(fcent)
+    waosdoaksd = find(abs(H_i) > (1/4));
+    result = waosdoaksd(size(waosdoaksd,1));
 
-        %calculate filter coeffs
-        bb = cos(2*pi*(fcent(i)/fs)*nn); 
+    meg(i) = W_i(result - 1) * (fs / (2 * pi()));
+end
 
-        %get the greatest unscaled val to scale BPF down 
-        [h, w] = freqz(bb, 1, fs);
-        maxVal = max(h); %find the maximum value
+l = 1;
 
-        %scaled 
-        bb_scaled = (1/maxVal)*bb;
-        [h_out, w_out] = freqz(bb_scaled, 1, fs);
+for i = 1:(size(meg, 2) - 1)
 
-        %assign to matrix 
-        hh(:, i) = bb_scaled;
+    if (meg(i) > (fcent(i + 1)))
+        l = 0;
+        break;
     end
+
+end
+
+
 end
