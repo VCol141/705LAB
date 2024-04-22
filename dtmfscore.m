@@ -35,10 +35,28 @@ for i = 1:size(hh,2)
     
 end
 
+
+
+% % at noise ratio 8 accuracy   0.9836
+% y_1 = sort(y);
+% 
+% n = size(y_1,2);
+% 
+% for i = 1:size(hh,2)
+% 
+%     if (y(i) == y_1(n))
+%         sc(i) = 1;
+%     elseif (y(i) == y_1(n - 1))
+%         sc(i) = 1;
+%     end
+% end
+
+
+% at noise ratio 8 accuracy 0.9726
 y = y * (1 / max(y));
 
 for i = 1:size(hh,2)
-    if (y(i) > 0.9)
+    if (y(i) > 0.85)
         sc(i) = 1;
     end
 end
