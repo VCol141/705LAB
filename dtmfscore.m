@@ -16,20 +16,32 @@ sc = zeros(size(hh, 2), 1);
 
 close;
 
-for i = 1:size(hh, 2)
-    y = conv(hh(:,i), xx_2);
-    y = abs(y);
+spectrogram(xx,hamming(126), 0, 256);
 
-    max(y)
+% for i = 1:size(hh, 2)
+%     y = conv(hh(:,i), xx_2);
+%     y = abs(y);
+% 
+%     max(y)
+% 
+%     if (max(y) >= 0.5)
+%         sc(i) = 1;
+%     end
+% 
+% end
+
+for i = 1:size(hh,2)
+    y(i) = max(abs(conv(hh(:,i), xx_2)));
     
-    if (max(y) >= 0.5)
+end
+
+y = y * (1 / max(y));
+
+for i = 1:size(hh,2)
+    if (y(i) > 0.9)
         sc(i) = 1;
     end
-
 end
-
-end
-
 
 %%%% add your lines below to complete the code
 

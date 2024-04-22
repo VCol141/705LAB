@@ -32,14 +32,11 @@ for i = 1:size(nstart, 2)
     freq_section = xx(nstart(i):nstop(i));
     sc = dtmfscore(freq_section, bb);
 
-    freq_components(:,i) = nonzeros(sc .* freqs);
-end
+    %freq_components(:,i) = nonzeros(sc .* freqs);
 
-for i = 1:size(freq_components,2)
+    %S = sum(nonzeros(sc .* freqs));
 
-    S = sum(freq_components(:,i));
-
-    switch S
+    switch sum(nonzeros(sc .* freqs))
         case (697 + 1209)
             keys(i) = '1';
         case (697 + 1336)
@@ -73,7 +70,7 @@ for i = 1:size(freq_components,2)
         case (941 + 1633)
             keys(i) = 'D';
         otherwise
-            keys(i) = '-1';
+            keys(i) = 'e';
     end
 end
 
