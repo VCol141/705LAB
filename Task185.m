@@ -13,3 +13,30 @@ fcent = [697;770;852;941;1209;1336;1477;1633];
 number = '01205978436';
 a = dtmfdial(number, 7);
 keys = dtmfrun(a,L,fs)
+
+%% Testing Accuracy
+
+
+k = 50;
+f = 0;
+
+sum = 0;
+
+for i = 1:k
+    a = dtmfdial(number, 7);
+
+    %a = bandpass(a, [697 1633], fs);
+
+    keys = dtmfrun(a,L,fs);
+
+    for j = 1:size(keys,2)
+        if keys(j) == number(j)
+            sum = sum + 1;
+        end
+
+        f = f + 1;
+    end
+
+end
+
+sum / f
