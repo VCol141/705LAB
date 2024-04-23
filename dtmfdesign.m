@@ -26,38 +26,38 @@ for i=1:size(fcent)
     bb = cos(2*pi*(fcent(i)/fs)*nn); 
 
     %get the greatest unscaled val to scale BPF down 
-    [h, w] = freqz(bb, 1, fs);
+    [h, w] = freqz(bb, 1, 4096);
     maxVal = max(abs(h)); %find the maximum value
 
     %scaled 
     bb_scaled = (1/maxVal)*bb;
-    [h, w] = freqz(bb_scaled, 1, fs);
+    [h, w] = freqz(bb_scaled, 1, 4096);
     hh(:, i) = bb_scaled;
     H(:, i) = h;
     W(:, i) = w;
 
-    % %plot stuff
-    % plot(w, abs(h));
-    % xlabel('Normalised Frequency')
-    % ylabel('Frequency Response Magnitude')
-    % xlim([0, 3.14]);
-    % ylim([-0.2, 1.2]);
-    % hold on;
-    % 
-    % 
-    % %find the cutoff frequencies 
-    % lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;
-    % ucf_index = find(diff(abs(h) < 0.7071) == 1) + 1;
-    % lcf = w(lcf_index);
-    % ucf = w(ucf_index);
-    % 
-    % fprintf('For frequency number %d\n', i)
-    % disp('Lower cutoff frequency:');
-    % disp((lcf*fs)/(2*pi));
-    % disp('Upper cutoff frequency:');
-    % disp((ucf*fs)/(2*pi));
-    % disp('Passband width');
-    % disp(((ucf-lcf)*fs/(2*pi)));
+    %plot stuff
+    plot(w, abs(h));
+    xlabel('Normalised Frequency')
+    ylabel('Frequency Response Magnitude')
+    xlim([0, 3.14]);
+    ylim([-0.2, 1.2]);
+    hold on;
+
+
+    %find the cutoff frequencies 
+    lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;
+    ucf_index = find(diff(abs(h) < 0.7071) == 1) + 1;
+    lcf = w(lcf_index);
+    ucf = w(ucf_index);
+
+    fprintf('For frequency number %d\n', i)
+    disp('Lower cutoff frequency:');
+    disp((lcf*fs)/(2*pi));
+    disp('Upper cutoff frequency:');
+    disp((ucf*fs)/(2*pi));
+    disp('Passband width');
+    disp(((ucf-lcf)*fs/(2*pi)));
 
 end
 end

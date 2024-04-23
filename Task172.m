@@ -4,7 +4,7 @@ clc;
 % Values for Filter
 L = 50;
 N = 4096;
-a = 1
+a = 1;
 wn = a;
 b = zeros(1,L);
 omegaC = 0.2*pi;
@@ -22,6 +22,7 @@ end
 
 % Find Beta that equals magnitude responce of 1 by dividing 1 by max
 % magnitude
+max(abs(H))
 beta = 1 / max(abs(H));
 
 % ReCalc Frequency Responce
@@ -35,9 +36,14 @@ result = find(abs(H) > (1/sqrt(2)));
 
 % Get the first and last Normalised Frequency
 ftOmeg = W(result(1));
-ltOmeg = W(result(140));
+ltOmeg = W(result(size(result,1)));
 
-ftf = ftOmeg * (N / (2*pi))
-ltf = ltOmeg * (N / (2*pi))
+ftOmeg - ltOmeg;
+
+ftf = ftOmeg * (N / (2*pi));
+ltf = ltOmeg * (N / (2*pi));
+
+ltf - ftf;
+
 
 
