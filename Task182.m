@@ -20,5 +20,3 @@ for i = 1:size(nstart, 2)
 
     freq_components(:,i) = nonzeros(sc .* fcent);
 end
-
-

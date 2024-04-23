@@ -36,28 +36,28 @@ for i=1:size(fcent)
     H(:, i) = h;
     W(:, i) = w;
 
-    %plot stuff
-    plot(w, abs(h));
-    xlabel('Normalised Frequency')
-    ylabel('Frequency Response Magnitude')
-    xlim([0, 3.14]);
-    ylim([-0.2, 1.2]);
-    hold on;
-
-
-    %find the cutoff frequencies 
-    lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;
-    ucf_index = find(diff(abs(h) < 0.7071) == 1) + 1;
-    lcf = w(lcf_index);
-    ucf = w(ucf_index);
-
-    fprintf('For frequency number %d\n', i)
-    disp('Lower cutoff frequency:');
-    disp((lcf*fs)/(2*pi));
-    disp('Upper cutoff frequency:');
-    disp((ucf*fs)/(2*pi));
-    disp('Passband width');
-    disp(((ucf-lcf)*fs/(2*pi)));
+    % %plot stuff
+    % plot(w, abs(h));
+    % xlabel('Normalised Frequency')
+    % ylabel('Frequency Response Magnitude')
+    % xlim([0, 3.14]);
+    % ylim([-0.2, 1.2]);
+    % hold on;
+    % 
+    % 
+    % %find the cutoff frequencies 
+    % lcf_index = find(diff(abs(h) > 0.7071) == 1) + 1;
+    % ucf_index = find(diff(abs(h) < 0.7071) == 1) + 1;
+    % lcf = w(lcf_index);
+    % ucf = w(ucf_index);
+    % 
+    % fprintf('For frequency number %d\n', i)
+    % disp('Lower cutoff frequency:');
+    % disp((lcf*fs)/(2*pi));
+    % disp('Upper cutoff frequency:');
+    % disp((ucf*fs)/(2*pi));
+    % disp('Passband width');
+    % disp(((ucf-lcf)*fs/(2*pi)));
 
 end
 end
