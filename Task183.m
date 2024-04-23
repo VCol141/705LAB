@@ -12,4 +12,4 @@ fcent = [697;770;852;941;1209;1336;1477;1633];
 
 number = '01205978436';
 a = dtmfdial(number, 7);
-keys = dtmfrun(a,L,fs)
+keys = dtmfrun(a,L,fs);

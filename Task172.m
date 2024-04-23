@@ -22,7 +22,6 @@ end
 
 % Find Beta that equals magnitude responce of 1 by dividing 1 by max
 % magnitude
-max(abs(H))
 beta = 1 / max(abs(H));
 
 % ReCalc Frequency Responce
@@ -40,10 +39,10 @@ ltOmeg = W(result(size(result,1)));
 
 ftOmeg - ltOmeg;
 
-ftf = ftOmeg * (N / (2*pi));
-ltf = ltOmeg * (N / (2*pi));
+ftf = ftOmeg * (8000 / (2*pi));
+ltf = ltOmeg * (8000 / (2*pi));
 
-ltf - ftf;
+bandwidth = ltf - ftf;
 
 
 

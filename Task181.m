@@ -27,6 +27,10 @@ fcent = [697;770;852;941;1209;1336;1477;1633];
 
 [bb, H, W] = dtmfdesign(fcent, L, fs);
 
+t = linspace(0,pi,4096);
+
+plot(t, abs(H))
+
 
 %% Functions
 
