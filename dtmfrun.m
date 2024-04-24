@@ -27,15 +27,14 @@ k = 1;
 
 [bb, H, W] = dtmfdesign(freqs, L, fs);
 
+% loop through the indexes
 for i = 1:size(nstart, 2)
 
+    %get the score of the freqs
     freq_section = xx(nstart(i):nstop(i));
     sc = dtmfscore(freq_section, bb);
 
-    %freq_components(:,i) = nonzeros(sc .* freqs);
-
-    %S = sum(nonzeros(sc .* freqs));
-
+    %sum the freqs if the score is valid and match the sum to the key
     switch sum(nonzeros(sc .* freqs))
         case (697 + 1209)
             keys(i) = '1';

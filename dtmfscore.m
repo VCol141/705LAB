@@ -14,15 +14,18 @@ function  [sc] = dtmfscore(xx, hh)
 xx_2 = xx*(1/max(abs(xx)));   %---Scale x[n] to the range [-2,+2]
 sc = zeros(size(hh, 2), 1);
 
+% get freq resp of signal
 for i = 1:size(hh,2)
     y(i) = max(abs(conv(hh(:,i), xx_2)));
     
 end
 
+%sort the freq resp by magnitude
 y_1 = sort(y);
 
 n = size(y_1,2);
 
+% return the top two frequencies by magnitude
 for i = 1:size(hh,2)
 
     if (y(i) == y_1(n))
@@ -31,14 +34,3 @@ for i = 1:size(hh,2)
         sc(i) = 1;
     end
 end
-
-
-% % at noise ratio 8 accuracy 0.9726
-% y = y * (1 / max(y));
-% 
-% for i = 1:size(hh,2)
-%     if (y(i) > 0.59)
-%         sc(i) = 1;
-%     end
-% end
-
